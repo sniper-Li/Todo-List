@@ -51,24 +51,27 @@
 ## 项目演示
 
 - #### 登录
-
-  ![login](/Users/sher/Desktop/login.png)
+<img width="995" alt="login" src="https://github.com/sniper-Li/Todo-List/assets/88961888/8ad9733d-01b8-41fc-a078-f4fcafd6da9f">
 
 - #### 注册
 
-  ![register](/Users/sher/Desktop/register.png)
+  <img width="997" alt="register" src="https://github.com/sniper-Li/Todo-List/assets/88961888/4f4189cf-3f96-4d98-87fc-a20727078d0b">
+
 
 - #### 重置密码
 
-  ![reset password](/Users/sher/Desktop/reset password.png)
+  <img width="995" alt="reset password" src="https://github.com/sniper-Li/Todo-List/assets/88961888/97361919-29da-4f82-9b6b-02f8d0a5b682">
+
 
 - #### 应用首页
 
-  ![index](/Users/sher/Desktop/index.png)
+  <img width="995" alt="index" src="https://github.com/sniper-Li/Todo-List/assets/88961888/5d8f0741-2d7b-42fc-8588-af09188de85e">
+
 
 - #### 设置提醒时间
 
-  ![setReminder](/Users/sher/Desktop/setReminder.png)
+  <img width="993" alt="setReminder" src="https://github.com/sniper-Li/Todo-List/assets/88961888/218cc753-3635-4247-b569-9442d6d3211b">
+
 
 ***
 
