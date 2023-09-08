@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loading...</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-image: url('bg.avif');
+      background-color: #f0f0f0;
+      overflow: hidden;
+      flex-direction: column;
+      transition: background-color 2s;
+    }
+
+    #lottie {
+      width: 150px;
+      height: 150px;
+      margin-bottom: 1em;
+      animation: rotation 2s infinite linear;
+    }
+
+    @keyframes rotation {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(359deg);
+      }
+    }
+
+    .loading-text {
+      text-align: center;
+      width: 100%;
+      font-size: 1.5em;
+      padding: 20px;
+      color: #3498db;
+      transition: color 2s;
+    }
+
+    #tips {
+      color: red;
+      font-weight: bold;
+      transition: color 2s;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="lottie"></div>
+  <div class="loading-text">
+    <p id="typed-text">正在加载你的应用...</p>
+    <p id="tips">提示：若页面卡顿，请鼠标点击你桌面空白位置，再点击应用</p>
+  </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.9"></script>
+<script>
+  window.onload = () => {
+    const lottie = require('lottie-web');
+    var animation = lottie.loadAnimation({
+      container: document.getElementById('lottie'), // Required
+      path: 'Animation.json', // Required
+      renderer: 'svg', // Required
+      loop: true, // Optional
+      autoplay: true, // Optional
+    });
+
+    var typed = new Typed('#typed-text', {
+      strings: ["正在加载你的应用...", "请稍候..."],
+      typeSpeed: 50,
+      backSpeed: 50,
+      loop: true
+    });
+
+    setTimeout(() => {
+      document.body.style.backgroundColor = "#3498db";
+      document.querySelector('.loading-text').style.color = "#f0f0f0";
+      document.getElementById('tips').style.color = "#f1c40f";
+    }, 2000);
+  };
+</script>
+
+</html>

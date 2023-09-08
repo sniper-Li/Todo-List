@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to right, #f7f7f7, #ffffff);
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .card-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* Center the elements horizontally */
+        }
+
+        @keyframes swing {
+            0% {
+                transform: rotate(5deg);
+            }
+
+            50% {
+                transform: rotate(-5deg);
+            }
+
+            100% {
+                transform: rotate(5deg);
+            }
+        }
+
+
+        .hand {
+            position: absolute;
+            top: -100px;
+            /* You can adjust this value to position the image as you like */
+            width: 120px;
+            /* You can adjust the size as needed */
+            height: auto;
+            animation: swing 1s infinite alternate;
+            transform-origin: 50% 100%;
+        }
+
+        .bubble-container {
+            position: relative;
+            /* Allows for absolute positioning within this container */
+        }
+
+        .bubble {
+            position: absolute;
+            /* Take bubble out of the normal flow */
+            left: 60px;
+            /* Adjust as needed to position the bubble */
+            top: -90px;
+            /* Adjust as needed to position the bubble */
+            display: inline-flex;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            padding: 5px 10px;
+            white-space: nowrap;
+            /* Prevent text from wrapping */
+            min-width: 100px;
+            max-width: 200px;
+        }
+
+        .content {
+            flex-grow: 1;
+        }
+
+        .card {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-body {
+            padding: 2em;
+        }
+
+        .form-group label {
+            font-weight: 500;
+        }
+
+        .form-group input {
+            border: none;
+            border-bottom: 1px solid #888;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        .form-group input:focus {
+            border-color: #007bff;
+            box-shadow: none;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            border-radius: 20px;
+            padding: 10px 30px;
+            font-size: 18px;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .links {
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
+
+        .links a {
+            margin-right: 10px;
+            color: #007bff;
+        }
+
+        .links a:hover {
+            color: #0056b3;
+        }
+    </style>
+    <title>Login</title>
+</head>
+
+<body>
+    <div class="card-container">
+        <img src="hand.png" alt="Cartoon hand" class="hand">
+        <div class="bubble-container">
+            <div class="bubble">
+                <span class="content"></span>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h1 class="text-center">Login</h1>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" id="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Login</button>
+                </form>
+                <div class="links text-center">
+                    <p>Don't have an account? <a href="register.html">Register</a></p>
+                    <p>Forgot your password? <a href="resetPassword.html">Reset Password</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="renderer.js" type="module"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const now = new Date();
+            const hour = now.getHours();
+            let greeting='';
+
+            if (hour < 12) {
+                greeting = "早上好呀～!";
+            } else if (hour < 18) {
+                greeting = "下午好呀～!";
+            } else {
+                greeting = "晚上好呀!";
+            }
+
+            const bubble = document.querySelector('.bubble');
+            bubble.innerText = greeting;
+        });
+    </script>
+</body>
+
+</html>

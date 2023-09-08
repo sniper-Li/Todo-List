@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <title>Todo List</title>
+    <style>
+        body {
+            background-image: url('bg.avif');
+        }
+
+        .navbar-brand img {
+            width: 30px;
+            height: 30px;
+            border: 2px solid #ffffff;
+            /* 在 logo 周围添加一个白色实线边框 */
+            box-shadow: 0 0 10px #d3d3d3;
+            /* 使用浅灰色阴影来创建发光效果 */
+            margin-right: 5px;
+            /* 在 logo 和文本之间添加一些间距 */
+            cursor: pointer;
+        }
+
+        /* 新的蒙版样式 */
+        .modal {
+            display: none;
+            /* 默认隐藏蒙版 */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            /* 添加半透明黑色背景 */
+            backdrop-filter: blur(8px);
+            /* 添加毛玻璃效果，值越大效果越明显 */
+            z-index: 9999;
+            /* 设置蒙版在最上层 */
+        }
+
+        .modal-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            background-color: transparent;
+        }
+
+        .modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 5px;
+            /* 可选：如果希望放大图片时有圆角效果 */
+        }
+
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: red;
+            cursor: pointer;
+            font-size: 40px;
+            font-weight: bold;
+        }
+
+        #todoList li {
+            margin-bottom: 10px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .todo-content {
+            font-weight: bold;
+            color: #343a40;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .todo-status {
+            color: #6c757d;
+        }
+
+        .status-completed {
+            color: #28a745;
+        }
+
+        .status-pending {
+            color: #ffc107;
+        }
+
+        .todo-created-time,
+        .todo-completed-time {
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        #todoList {
+            max-height: 400px;
+            /* Set a max-height. Adjust this value to your liking. */
+            overflow-y: auto;
+            /* Enable vertical scroll. */
+        }
+
+        #task {
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .navbar {
+            margin-bottom: 20px;
+        }
+
+        #searchTodo {
+            margin-bottom: 20px;
+        }
+
+        .footer {
+            position: fixed;
+            height: 2em;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: #f8f9fa;
+            color: #6c757d;
+            text-align: center;
+            padding: 10px;
+            line-height: 1.5em;
+        }
+
+        #completedCount {
+            font-weight: bold;
+            margin-top: 10px;
+            color: #28a745;
+            /* 已完成的颜色 */
+        }
+
+        #uncompletedCount {
+            font-weight: bold;
+            margin-top: 10px;
+            color: #dc3545;
+            /* 未完成的颜色 */
+        }
+
+        .count-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* 卡片布局 */
+        .list-group-item {
+            position: relative;
+            /* 添加相对定位，以便内部元素使用绝对定位 */
+            margin-bottom: 10px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* 闹钟图标按钮样式 */
+        .reminder-icon {
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            position: absolute;
+            /* 使用绝对定位 */
+            top: 50%;
+            /* 将图标垂直居中 */
+            right: 10px;
+            /* 调整图标与任务标题之间的距离 */
+            transform: translateY(-50%);
+            /* 将图标向上移动一半高度，实现垂直居中 */
+        }
+
+        /* 取消焦点边框 */
+        .reminder-select:focus,
+        .reminder-icon:focus {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
+        /* 样式设置 */
+        .icon-container {
+            position: relative;
+            /* 相对定位，以便内部元素使用绝对定位 */
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .reminder-label {
+            font-size: 12px;
+            color: gray;
+            margin-left: 5px;
+            /* 调整图标和文字之间的距离 */
+            position: absolute;
+            top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+            <img src="logo.jpeg" width="30" height="30" class="d-inline-block align-top" alt="">
+            Todo List App
+        </a>
+        <button id="logout" class="btn btn-outline-danger my-2 my-sm-0">退出</button>
+    </nav>
+
+    <div class="container mt-0 mb-5">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title" id="greeting">Welcome, <span id="username"></span></h2>
+                        <hr />
+                        <h5 class="card-subtitle mb-3 text-muted">Your Todo List</h5>
+                        <!-- 计数容器放在这里 -->
+                        <div class="count-container">
+                            <p id="completedCount">已完成：0</p>
+                            <p id="uncompletedCount">未完成：0</p>
+                        </div>
+                        <input class="form-control" id="searchTodo" type="text" placeholder="Search...">
+                        <ul id="searchResults" class="list-group mb-4" style="display: none;"></ul>
+                        <ul id="todoList" class="list-group mb-4"></ul>
+                        <form id="addTodoForm">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="newTodo" placeholder="Add new todo...">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-primary">Add</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 蒙版 -->
+    <div class="modal" id="modal" onclick="closeModal()">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <img src="logo.jpeg" id="modalImg" alt="Preview">
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>© 2023 Todo List App | 反馈邮箱：linanxi914@gmail.com</p>
+    </div>
+
+</body>
+<script src="renderer.js" type="module"></script>
+<script>
+    const greetingElement = document.getElementById('greeting');
+    const currentDate = new Date();
+    const currentHour = currentDate.getHours();
+
+    let greeting;
+
+    if (currentHour < 12) {
+        greeting = '早上好';
+    } else if (currentHour < 18) {
+        greeting = '下午好';
+    } else {
+        greeting = '晚上好';
+    }
+
+    greetingElement.innerHTML = `${greeting}, <span id="username"></span>`;
+    // 获取 logo 图片元素和蒙版元素
+    const logoImg = document.querySelector('.navbar-brand img');
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modalImg');
+
+    // 点击 logo 图片时显示蒙版
+    logoImg.addEventListener('click', (event) => {
+        event.stopPropagation(); // 阻止事件冒泡，防止点击图片时关闭蒙版
+        modal.style.display = 'flex'; // 使用 flex 显示蒙版
+    });
+
+    // 点击蒙版或关闭按钮时关闭蒙版
+    function closeModal() {
+        modal.style.display = 'none';
+    }
+</script>
+
+</html>
